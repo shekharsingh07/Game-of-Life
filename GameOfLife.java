@@ -7,54 +7,52 @@ public class GameOfLife {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter grid size: ");
         int M = sc.nextInt();
-        int N = M;
-        System.out.println("The grid size is " +M+ "x"+N+ "\n");
+        System.out.println("The grid size is " +M+ "x"+ M + "\n");
         System.out.print("Enter how many generations: ");
         int gen = sc.nextInt();
 
 
-        int [][] grid = new int [M][N];    //Initiate grid
-        int [][] futureGrid = new int [M][N];
+        int [][] grid = new int [M][M];    //Initiate grid
+        int [][] futureGrid;
         Random rand = new Random();
 
 
 
 //--------------------------Initial state--------------------------
         //(i) Randomized set - Uncomment to use
-        System.out.print("Initial State: \n");
-        for(int i=0; i<M; i++){
-            for(int j=0; j<N; j++){
-                grid[i][j] = rand.nextInt(2);
-            }
-        }
-        //(ii) Specific set - Uncomment to use
-//        System.out.print("Initial State: \n");
+//        System.out.print("\nInitial State: \n");
 //        for(int i=0; i<M; i++){
-//            for(int j=0; j<N; j++){
-//                grid[i][j] = 0;
+//            for(int j = 0; j< M; j++){
+//                grid[i][j] = rand.nextInt(2);
 //            }
 //        }
-//
-//        grid[5][6]=1;
-//        grid[5][7]=1;
-//        grid[5][8]=1;
-//        grid[4][6]=1;
-//        grid[4][5]=1;
+        //(ii) Specific set - Uncomment to use
+        System.out.print("Initial State: \n");
+        for(int i=0; i<M; i++){
+            for(int j=0; j<M; j++){
+                grid[i][j] = 0;
+            }
+        }
 
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[i].length; j++) {
-                System.out.print(grid[i][j] + " ");
+        grid[5][6]=1;
+        grid[5][7]=1;
+        grid[5][8]=1;
+        grid[4][6]=1;
+        grid[4][5]=1;
+
+        for (int[] ints : grid) {                  //(use enhanced for loop for cleaner code)
+            for (int anInt : ints) {
+                System.out.print(anInt + " ");
             }
             System.out.println();
 
         }
-        System.out.print("\n");
 
 
         System.out.print("\n");
         for(int g=0; g<gen; g++){
             int n = g+1;
-            futureGrid = applyRules(grid, M, N);
+            futureGrid = applyRules(grid, M, M);
             System.out.print("Generation "+ n +": \n");
             print(futureGrid);
             grid = futureGrid;
@@ -85,20 +83,20 @@ public class GameOfLife {
                 }
 
                 if(TL==1){
-                    neighbourCorner--;
-                    if((neighbourCorner==2)||(neighbourCorner==3)){
+                    neighbourCorner--;              //Removes living cell from counter
+                    if((neighbourCorner==2)||(neighbourCorner==3)){         //2-3 neighbours; Cell lives
                         newGrid[0][0]=1;
                     }
-                    if((neighbourCorner==0)||(neighbourCorner==1)){
+                    if((neighbourCorner==0)||(neighbourCorner==1)){        //<2 neighbours; Cell dies
                         newGrid[0][0] = 0;
                     }
                 }
                 else if(TL==0){
-                    if(neighbourCorner==3){
+                    if(neighbourCorner==3){                                 //3 neighbours; Cell comes to life
                         newGrid[0][0]=1;
                     }
                     else{
-                        newGrid[0][0]=0;
+                        newGrid[0][0]=0;                                    //No rules; Dead cell stays dead
                     }
                 }
 
@@ -116,7 +114,7 @@ public class GameOfLife {
                 }
 
                 if(TR==1){
-                    neighbourCorner--;
+                    neighbourCorner--;              //Removes living cell from counter
                     if((neighbourCorner==2)||(neighbourCorner==3)){
                         newGrid[0][N-1]=1;
                     }
@@ -146,7 +144,7 @@ public class GameOfLife {
                 }
 
                 if (BL == 1) {
-                    neighbourCorner--;
+                    neighbourCorner--;              //Removes living cell from counter
                     if ((neighbourCorner == 2) || (neighbourCorner == 3)) {
                         newGrid[M - 1][0] = 1;
                     }
@@ -175,7 +173,7 @@ public class GameOfLife {
                 }
 
                 if(BR==1){
-                    neighbourCorner--;
+                    neighbourCorner--;              //Removes living cell from counter
                     if((neighbourCorner==2)||(neighbourCorner==3)){
                         newGrid[M-1][N-1]=1;
                     }
@@ -195,7 +193,7 @@ public class GameOfLife {
         }
 
 //    ____EDGE CELLS:____
-        int neighbourEdge=0;
+        int neighbourEdge;
         //Top:
         for(int x=0; x<1; x++){
             for(int y=1; y<N-1; y++){
@@ -210,7 +208,7 @@ public class GameOfLife {
                 }
 
                 if(grid[x][y] == 1){
-                    neighbourEdge--;
+                    neighbourEdge--;              //Removes living cell from counter
                     if((neighbourEdge==2)||(neighbourEdge==3)){
                         newGrid[x][y]=1;
                     }
@@ -244,7 +242,7 @@ public class GameOfLife {
                 }
 
                 if(grid[x][y] == 1){
-                    neighbourEdge--;
+                    neighbourEdge--;              //Removes living cell from counter
                     if((neighbourEdge==2)||(neighbourEdge==3)){
                         newGrid[x][y]=1;
                     }
@@ -279,7 +277,7 @@ public class GameOfLife {
                 }
 
                 if(grid[x][y] == 1){
-                    neighbourEdge--;
+                    neighbourEdge--;              //Removes living cell from counter
                     if((neighbourEdge==2)||(neighbourEdge==3)){
                         newGrid[x][y]=1;
                     }
@@ -314,12 +312,12 @@ public class GameOfLife {
                 }
 
                 if(grid[x][y] == 1){
-                    neighbourEdge--;
+                    neighbourEdge--;              //Removes living cell from counter
                     if((neighbourEdge==2)||(neighbourEdge==3)){
                         newGrid[x][y]=1;
                     }
                     if((neighbourEdge==0)||(neighbourEdge==1)){
-                        newGrid[x][y] = 0;       
+                        newGrid[x][y] = 0;
                     }
                 }
                 else if(grid[x][y] == 0){
@@ -388,9 +386,9 @@ public class GameOfLife {
 
     //--------------------------Print--------------------------
     public static void print(int[][] grid){
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[i].length; j++) {
-                System.out.print(grid[i][j] + " ");
+        for (int[] ints : grid) {
+            for (int anInt : ints) {
+                System.out.print(anInt + " ");
             }
             System.out.println();
 
