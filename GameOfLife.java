@@ -4,12 +4,18 @@ public class GameOfLife {
     public static void main(String[] args){
 
         //User Grid input
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter grid size: ");
-        int M = sc.nextInt();
-        System.out.println("The grid size is " +M+ "x"+ M + "\n");
-        System.out.print("Enter how many generations: ");
-        int gen = sc.nextInt();
+
+//        GameOfLife gridInput = new GameOfLife();
+//        int M = gridInput.validateGridInput();
+//        System.out.println("The grid size chosen is " +M+ "x"+ M + "\n");
+//
+//        GameOfLife genInput = new GameOfLife();
+//        int gen = genInput.validateGenInput();
+//        System.out.print("The number of generations chosen is "+gen+"\n");
+
+        //(((TEST VALUES)))
+        int M = 15;
+        int gen = 1;
 
 
         int [][] grid = new int [M][M];    //Initiate grid
@@ -20,25 +26,42 @@ public class GameOfLife {
 
 //--------------------------Initial state--------------------------
         //(i) Randomized set - Uncomment to use
-//        System.out.print("\nInitial State: \n");
+        System.out.print("\nInitial State: \n");
 //        for(int i=0; i<M; i++){
 //            for(int j = 0; j< M; j++){
 //                grid[i][j] = rand.nextInt(2);
 //            }
 //        }
         //(ii) Specific set - Uncomment to use
-        System.out.print("Initial State: \n");
-        for(int i=0; i<M; i++){
-            for(int j=0; j<M; j++){
-                grid[i][j] = 0;
-            }
-        }
+//        System.out.print("Initial State: \n");
+//        for(int i=0; i<M; i++){
+//            for(int j=0; j<M; j++){
+//                grid[i][j] = 0;
+//            }
+//        }
+//
+//        grid[5][6]=1;
+//        grid[5][7]=1;
+//        grid[5][8]=1;
+//        grid[4][6]=1;
+//        grid[4][5]=1;
 
-        grid[5][6]=1;
-        grid[5][7]=1;
-        grid[5][8]=1;
-        grid[4][6]=1;
-        grid[4][5]=1;
+        //(iii) Unit Test:
+        grid = new int[][]{ {1,0,0,1,1,0,1,1,1,1,1,0,0,1,0},
+                            {1,0,1,1,1,0,1,1,1,0,1,0,0,0,1},
+                            {1,1,1,1,1,0,0,0,1,1,0,1,1,1,0},
+                            {1,1,1,1,0,0,0,1,1,1,0,0,1,1,1},
+                            {1,0,0,0,0,0,1,1,1,0,0,0,1,0,1},
+                            {1,1,0,0,0,0,0,0,0,1,0,1,0,0,1},
+                            {1,0,1,0,0,0,0,1,1,1,0,1,1,1,0},
+                            {0,0,0,0,0,0,1,1,1,0,1,1,1,1,0},
+                            {1,0,1,1,0,1,1,0,0,1,1,1,1,1,1},
+                            {1,0,1,0,1,1,0,1,1,1,1,1,1,0,1},
+                            {1,1,0,0,0,0,1,0,1,0,0,0,0,0,1},
+                            {1,1,1,0,1,1,0,1,0,0,1,1,0,1,1},
+                            {0,1,1,1,1,0,1,1,1,1,0,1,0,0,0},
+                            {1,1,0,0,0,0,1,0,0,1,1,1,1,0,1},
+                            {0,1,0,1,0,1,1,1,0,1,0,0,1,1,1}};
 
         for (int[] ints : grid) {                  //(use enhanced for loop for cleaner code)
             for (int anInt : ints) {
@@ -58,6 +81,37 @@ public class GameOfLife {
             grid = futureGrid;
         }
     }
+
+    //--------------------------Validating Grid input--------------------------
+    public int validateGridInput(){
+        Scanner sc = new Scanner(System.in);
+        int number;
+        do{
+            System.out.print("Enter grid size: ");
+            while (!sc.hasNextInt()){
+                String input = sc.next();
+                System.out.printf("\"%s\" is not a valid number. \n", input);
+            }
+            number = sc.nextInt();
+        } while (number<0);
+        return number;
+    }
+
+    //--------------------------Validating Generation input--------------------------
+    public int validateGenInput(){
+        Scanner scan = new Scanner(System.in);
+        int num;
+        do{
+            System.out.print("Enter how many generations: ");
+            while (!scan.hasNextInt()){
+                String input = scan.next();
+                System.out.printf("\"%s\" is not a valid number. \n", input);
+            }
+            num = scan.nextInt();
+        } while (num<0);
+        return num;
+    }
+
 
 
     //--------------------------Applying rules--------------------------
